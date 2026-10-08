@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Contact Book</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="topbar">
+    <div class="container nav">
+        <a class="brand" th:href="@{/contacts}">📒 Contact Book</a>
+    </div>
+</header>
+
+<main class="container narrow">
+    <section class="card error-card">
+        <div class="empty-icon">⚠️</div>
+        <h1>Something went wrong</h1>
+        <p th:text="${errorMessage}">An unexpected error occurred.</p>
+        <a class="btn btn-primary" th:href="@{/contacts}">Back to Contacts</a>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Book</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="topbar">
+    <div class="container nav">
+        <a class="brand" th:href="@{/contacts}">📒 Contact Book</a>
+        <a class="btn btn-primary" th:href="@{/contacts/new}">+ Add Contact</a>
+    </div>
+</header>
+
+<main class="container">
+    <section class="hero">
+        <div>
+            <p class="eyebrow">CONTACT MANAGEMENT</p>
+            <h1>Your Contacts</h1>
+            <p class="subtitle">Add, search, edit and delete your contacts easily.</p>
+        </div>
+    </section>
+
+    <section class="card">
+        <form class="search-form" th:action="@{/contacts}" method="get">
+            <input
+                    type="text"
+                    name="keyword"
+                    th:value="${keyword}"
+                    placeholder="Search by name, phone or email">
+            <button class="btn btn-primary" type="submit">Search</button>
+            <a class="btn btn-secondary" th:href="@{/contacts}">Clear</a>
+        </form>
+    </section>
+
+    <section class="card">
+        <div class="table-header">
+            <h2>Contact List</h2>
+            <span class="count" th:text="${contacts.size()} + ' contact(s)'">0 contact(s)</span>
+        </div>
+
+        <div class="empty-state" th:if="${contacts.isEmpty()}">
+            <div class="empty-icon">📭</div>
+            <h3>No contacts found</h3>
+            <p>Add your first contact to get started.</p>
+            <a class="btn btn-primary" th:href="@{/contacts/new}">Add Contact</a>
+        </div>
+
+        <div class="table-wrapper" th:unless="${contacts.isEmpty()}">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="contact : ${contacts}">
+                    <td th:text="${contact.id}">1</td>
+                    <td class="strong" th:text="${contact.name}">Rahul Kumar</td>
+                    <td th:text="${contact.phone}">9876543210</td>
+                    <td th:text="${contact.email}">rahul@gmail.com</td>
+                    <td th:text="${contact.address != null and !contact.address.isBlank() ? contact.address : '—'}">Chennai</td>
+                    <td class="actions">
+                        <a class="btn btn-small btn-edit"
+                           th:href="@{/contacts/edit/{id}(id=${contact.id})}">Edit</a>
+                        <a class="btn btn-small btn-delete"
+                           th:href="@{/contacts/delete/{id}(id=${contact.id})}"
+                           onclick="return confirm('Are you sure you want to delete this contact?');">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Contact Book Application · Spring Boot + PostgreSQL</p>
+</footer>
+</body>
+</html>
